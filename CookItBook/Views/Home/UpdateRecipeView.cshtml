@@ -1,0 +1,91 @@
+﻿@model RecipeModel
+@using CookItBook.Models
+
+@{
+    ViewData["Title"] = "AddRecipeView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-lg-12">
+    <h2>Update Recipe View</h2>
+    <button type="button" class="btn btn-primary" id="blue" onclick="color(blue)">Blue</button>
+    <button type="button" class="btn btn-dark" id="black" onclick="color(black)">Black</button>
+    <button type="button" class="btn btn-default" id="white" onclick="color(white)">White</button>
+    <button type="button" class="btn btn-success" id="green" onclick="color(green)">Green</button>
+</div>
+
+<div class="col-lg-12">
+    <form asp-action="UpdateRecipe" class="col-lg-12" id="recipeForm" onsubmit="return formVals()">
+        <input name="RecipeID" value="@Model.RecipeID" hidden />
+        <div class="col-sm-4">
+            <div class="row form-group">
+                <div class="col-sm-4 col-md-6 col-lg-10">
+                    <label>Recipe Name</label>
+                    <textarea rows="1" cols="60" wrap="hard" name="Name" id="Name" class="form-control green" onkeyup="new do_resize(this);" onkeypress="handleEnter(event, this, true)" >@Model.Name</textarea>
+
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 col-md-6 col-lg-10">
+                    <label>Ingredients</label>
+                    <textarea rows="1" cols="60" wrap="hard" name="ingredientCSV" id="ing" class="form-control green" onkeyup="new do_resize(this);" onkeypress="handleEnter(event, this, false)"></textarea>
+                </div>
+
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-4 col-md-6 col-lg-10">
+                    <label>Instructions</label>
+                    <textarea rows="1" cols="60" wrap="hard" id="ins" name="instructionCSV" class="form-control green" onkeyup="new do_resize(this);" onkeypress="handleEnter(event, this, false)"></textarea>
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <input name="GlutenFree" type="checkbox" value="true" checked="@Model.GlutenFree" /> Gluten Free
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <input name="DairyFree" type="checkbox" value="true" checked="@Model.DairyFree" /> Dairy Free
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <input name="Vegetarian" type="checkbox" value="true" checked="@Model.Vegetarian" /> Vegetarian
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <input name="Vegan" type="checkbox" value="true" checked="@Model.Vegan" /> Vegan
+                </div>
+            </div>
+            <div class="row form-group">
+                <div class="col-sm-6 col-md-6 col-lg-6">
+                    <input name="Nuts" type="checkbox" value="true" checked="@Model.Nuts" /> Has Nuts
+                </div>
+            </div>
+            <div class="col-md-12">
+                <input type="submit" value="Save" class="col-md-12 btn-primary" />
+            </div>
+        </div>
+        <div class="col-sm-4 form-group">
+            <label>Ingredient List</label>
+            <ol id="dynamic-list-ing" class="list-group" name="Ingredients">
+                @for (int i = 0; i < Model.Ingredients.Count; i++)
+                {
+                    <li>
+                        <a onclick="removeItem(this,@i,'ing')" class="glyphicon glyphicon-remove btn btn-xs btn-danger"> Remove Item</a>
+                        <textarea rows="1" cols="60" wrap="hard" id="@("ins" + Model.Ingredients[i].Name)" class="form-control green" onkeyup="new do_resize(this)" onkeypress="handleEnter(event, this, true)">@Model.Ingredients[i].Name</textarea>
+                    </li>
+                }
+            </ol>
+        </div>
+        <div class="col-sm-4 form-group">
+            <label>Instruction List</label>
+            <ol id="dynamic-list-ins" class="list-group" name="Instructions">
+                @for (int i = 0; i < Model.Instructions.Count; i++)
+                {
+                    <li>
+                        <a onclick="removeItem(this,@i,'ins')" class="glyphicon glyphicon-remove btn btn-xs btn-danger"> Remove Item</a>
+                        <textarea rows="1" cols="60" wrap="hard" id="@("ins" + Model.Instructions[i].Step)" class="form-control green" onkeyup="new do_resize(this)" onkeypress="handleEnter(event, this, true)">@Model.Instructions[i].Step</textarea>
+                    </li>
+                }
+            </ol>
+        </div>
+    </form>
+</div>

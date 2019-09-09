@@ -1,0 +1,28 @@
+﻿@model CookItBook.Models.RecipeViewModel
+
+@{
+    ViewData["Title"] = "RecipeIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p>
+    <h1 class="Title">Recipe Index</h1>
+</p>
+
+<div class="col-lg-12">
+    <table class="table-bordered">
+        <tr>
+            <th><h3 class="column-header">Recipe Name</h3></th>
+        </tr>
+        @for (int i = 0; i < Model.Recipes.Count; i++)
+        {
+            <tr style="width:auto">
+                <td>
+                    <input class="recipeButton" type="button" title="Delete" value="@Model.Recipes[i].Name" onclick="location.href='@Url.Action("UpdateRecipeView", "Home", new { RecipeID =  Model.Recipes[i].RecipeID })'" />                   
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+<script src="~/js/UpdateRecipe.js"></script>
